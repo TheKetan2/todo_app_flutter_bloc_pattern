@@ -1,7 +1,7 @@
 ### Todo App using BLoC pattern
 
 - For state management: BLoC pattern
-- Database in stored in JSON using sembast package
+- The database is stored in JSON using sembast package
 
 ### Snapshots
 
