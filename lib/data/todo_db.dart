@@ -28,9 +28,11 @@ singleton pattern
 
   Future<Database> get database async {
     if (_database == null) {
-      await _openDb().then((db) {
-        _database = db;
-      });
+      await _openDb().then(
+        (db) {
+          _database = db;
+        },
+      );
     }
     return _database;
   }
@@ -40,5 +42,20 @@ singleton pattern
     final dbPath = join(docsPath.path, "todos.db");
     final db = await dbFactory.openDatabase(dbPath);
     return db;
+  }
+
+  Future insertTodo(Todo todo) async {
+    await store.add(_database, todo.toMap());
+  }
+
+  /*Similarly, to update an existing item in the database, you can call the update()
+method of the store. The difference here is that you also need another object:
+a Finder. A Finder is a helper that you can use to search inside a store. With the
+update() method, you need to retrieve a Todo before updating it, so you need
+the Finder before you update the document. */
+
+  Future updateTodo(Todo todo) async {
+    final finder = Finder(filter: Filter.byKey(todo.id));
+    await store.update(_database, todo.toMap(), finder: finder);
   }
 }
