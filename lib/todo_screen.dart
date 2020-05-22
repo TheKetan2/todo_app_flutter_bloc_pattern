@@ -58,7 +58,8 @@ class TodoScreen extends StatelessWidget {
                     hintText: 'Priority',
                   ),
                 )),
-            Padding(
+            Container(
+                width: double.infinity,
                 padding: EdgeInsets.all(padding),
                 child: MaterialButton(
                   color: Colors.green,
@@ -81,9 +82,9 @@ class TodoScreen extends StatelessWidget {
     todo.completeBy = txtCompleteBy.text;
     todo.priority = int.tryParse(txtPriority.text);
     if (isNew) {
-      bloc.todoInsertSink.add(todo);
+      await bloc.todoInsertSink.add(todo);
     } else {
-      bloc.todoUpdateSink.add(todo);
+      await bloc.todoUpdateSink.add(todo);
     }
   }
 }

@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       title: 'Todos App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.lightGreen,
       ),
       home: HomePage(),
     );
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
     todos = todoBloc.todoList;
     return Scaffold(
         appBar: AppBar(
-          title: Text('Todo List'),
+          title: Text('Todo List using BLoC'),
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
@@ -75,22 +75,39 @@ class _HomePageState extends State<HomePage> {
                               todoBloc.todoDeleteSink.add(snapshot.data[index]),
                           child: ListTile(
                             leading: CircleAvatar(
-                              backgroundColor: Theme.of(context).highlightColor,
-                              child: Text("${snapshot.data[index].priority}"),
+                              backgroundColor:
+                                  snapshot.data[index].priority == 1
+                                      ? Colors.green
+                                      : snapshot.data[index].priority == 2
+                                          ? Colors.orange
+                                          : Colors.red,
+                              child: Text(
+                                "${snapshot.data[index].priority}",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                             title: Text("${snapshot.data[index].name}"),
                             subtitle:
                                 Text("${snapshot.data[index].description}"),
-                            trailing: IconButton(
-                              icon: Icon(Icons.edit),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => TodoScreen(
-                                          snapshot.data[index], false)),
-                                );
-                              },
+                            trailing: CircleAvatar(
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.edit,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TodoScreen(
+                                            snapshot.data[index], false)),
+                                  );
+                                },
+                              ),
                             ),
                           ));
                     });
